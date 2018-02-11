@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Copyright © 2017年 ligang. All rights reserved." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b6y-Yv-Bcs">
+                                <rect key="frame" x="46.5" y="651" width="282" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="book" translatesAutoresizingMaskIntoConstraints="NO" id="yAT-g7-K1n">
+                                <rect key="frame" x="112" y="108" width="150" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="8Uv-OF-sgu"/>
+                                    <constraint firstAttribute="width" constant="150" id="Zpz-0r-kin"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reading..." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="orB-5X-7lI">
+                                <rect key="frame" x="127.5" y="258" width="119.5" height="31.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="b6y-Yv-Bcs" secondAttribute="bottom" id="JDi-E5-CJj"/>
+                            <constraint firstItem="b6y-Yv-Bcs" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="KaY-Vq-Vmk"/>
+                            <constraint firstItem="orB-5X-7lI" firstAttribute="centerX" secondItem="yAT-g7-K1n" secondAttribute="centerX" id="i7C-xA-fpi"/>
+                            <constraint firstItem="yAT-g7-K1n" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="wpZ-wX-8Yv"/>
+                            <constraint firstItem="orB-5X-7lI" firstAttribute="top" secondItem="yAT-g7-K1n" secondAttribute="bottom" id="wyL-fs-fAP"/>
+                            <constraint firstItem="yAT-g7-K1n" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="88" id="xki-O7-qJL"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="53" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="book" width="200" height="200"/>
+    </resources>
+</document>

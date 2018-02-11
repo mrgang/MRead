@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="af6-Vz-9LE">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--书单-->
+        <scene sceneID="XP5-bG-xZU">
+            <objects>
+                <tableViewController id="pJF-Zv-g8r" customClass="BookTableViewController" customModule="MRead" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="Jyg-xk-EpH">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <connections>
+                            <outlet property="dataSource" destination="pJF-Zv-g8r" id="Xue-JF-dCV"/>
+                            <outlet property="delegate" destination="pJF-Zv-g8r" id="EzH-EK-Sa6"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="书单" id="ryx-0c-irq">
+                        <barButtonItem key="rightBarButtonItem" title="推荐书单" id="keG-EX-Ngl">
+                            <connections>
+                                <action selector="getDefaultBooks" destination="pJF-Zv-g8r" id="1vm-4E-apd"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="ygo-wK-hyh" kind="show" identifier="showChapters" id="u73-kB-ipo"/>
+                        <segue destination="zM9-0N-38d" kind="show" identifier="showContent" id="hk9-i5-XOa"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5am-eU-cae" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="535.20000000000005" y="46.326836581709152"/>
+        </scene>
+        <!--章节内容-->
+        <scene sceneID="sXF-vq-07v">
+            <objects>
+                <viewController storyboardIdentifier="contentshow" title="章节内容" id="zM9-0N-38d" customClass="ContentViewController" customModule="MRead" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="AfV-g6-6hd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" directionalLockEnabled="YES" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6o-kh-Y6y">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="y6o-kh-Y6y" firstAttribute="bottom" secondItem="69d-Q3-2K4" secondAttribute="bottom" id="Uqu-FN-bWT"/>
+                            <constraint firstItem="y6o-kh-Y6y" firstAttribute="top" secondItem="AfV-g6-6hd" secondAttribute="top" id="v1G-8F-P5d"/>
+                            <constraint firstItem="y6o-kh-Y6y" firstAttribute="trailing" secondItem="69d-Q3-2K4" secondAttribute="trailing" id="ySu-5Q-l80"/>
+                            <constraint firstItem="y6o-kh-Y6y" firstAttribute="leading" secondItem="69d-Q3-2K4" secondAttribute="leading" id="z0l-fB-Ty5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="69d-Q3-2K4"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="章节内容" id="7AU-DM-ISt">
+                        <barButtonItem key="rightBarButtonItem" title="设置" id="sTl-DB-0G9">
+                            <connections>
+                                <action selector="settingFont:" destination="zM9-0N-38d" id="Moj-3l-Fd8"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="scrollView" destination="y6o-kh-Y6y" id="jUZ-iG-JUk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jJa-ao-0DJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="533.60000000000002" y="838.83058470764627"/>
+        </scene>
+        <!--最近跟新-->
+        <scene sceneID="MHf-nJ-WLc">
+            <objects>
+                <tableViewController id="ygo-wK-hyh" customClass="LastTenTableViewController" customModule="MRead" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="xIG-Sf-iTc">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="title cell" textLabel="fZs-Ev-bqC" style="IBUITableViewCellStyleDefault" id="urc-Gx-wb0">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="urc-Gx-wb0" id="NIY-lF-PvP">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="fZs-Ev-bqC">
+                                            <rect key="frame" x="16" y="0.0" width="344" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="zM9-0N-38d" kind="show" identifier="showContent" id="Lqm-65-Pmr"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="ygo-wK-hyh" id="w6g-Ad-Eem"/>
+                            <outlet property="delegate" destination="ygo-wK-hyh" id="dUl-6o-LH8"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="最近跟新" id="s9Y-Oy-Yba">
+                        <barButtonItem key="rightBarButtonItem" title="完整目录" id="rGE-pQ-vTe">
+                            <connections>
+                                <action selector="LoadAllChapters:" destination="ygo-wK-hyh" id="aTz-LN-pRE"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="c6B-vK-E3h" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1350" y="45"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="twS-fH-1tj">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="af6-Vz-9LE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="I9j-jX-6q0">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="pJF-Zv-g8r" kind="relationship" relationship="rootViewController" id="Ble-9W-BCv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DmX-bg-V2X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-238" y="46"/>
+        </scene>
+    </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="Lqm-65-Pmr"/>
+    </inferredMetricsTieBreakers>
+</document>
