@@ -66,7 +66,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         tableView.reloadData()
         let session = URLSession.shared
         task?.cancel()
-        task = session.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Book/Search?q=\(searchContent.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!){[weak self] (data, resp, error) in
+        task = session.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Search/\(searchContent.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!){[weak self] (data, resp, error) in
             DispatchQueue.main.async {
                 if let data = data, let books = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [[String: String]] {
                     let results = books.map({ item -> String in
@@ -190,7 +190,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         }else {
             //load data from net
             let session = URLSession.shared
-            task = session.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Book/Analyzer?actionType=1&distination="+bookURLs[indexPath.row])!){[weak weakSelf = self] (data, resp, error) in
+            task = session.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Analyzer/mainPage?path="+bookURLs[indexPath.row])!){[weak weakSelf = self] (data, resp, error) in
                 DispatchQueue.main.async {
                     if let data = data, let result = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any] {
                         let success = result["success"] as! Bool
