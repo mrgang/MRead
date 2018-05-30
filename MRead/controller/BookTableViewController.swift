@@ -190,7 +190,8 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         }else {
             //load data from net
             let session = URLSession.shared
-            task = session.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Analyzer/mainPage?path="+bookURLs[indexPath.row])!){[weak weakSelf = self] (data, resp, error) in
+            let path_str = "http://hsmart.xzzjw.cn/Books/Analyzer/mainPage?path="+bookURLs[indexPath.row]
+            task = session.dataTask(with: URL(string: path_str)!){[weak weakSelf = self] (data, resp, error) in
                 DispatchQueue.main.async {
                     if let data = data, let result = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any] {
                         let success = result["success"] as! Bool
