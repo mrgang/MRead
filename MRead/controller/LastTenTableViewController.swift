@@ -15,13 +15,15 @@ class LastTenTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         navigationController?.navigationBar.prefersLargeTitles = false
-        tenChapters = book.latestedTen
+        tenChapters = book.latestedTen.sorted(by: { (p1, p2) -> Bool in
+            return p1.1 < p2.1
+        })
         tableView.reloadData()
     }
     
     @IBAction func LoadAllChapters(_ sender: UIBarButtonItem) {
         title = "加载中..."
-        URLSession.shared.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Analyzer/menuPage?path="+book.all)!) {[weak self] (data, resp, error) in
+        URLSession.shared.dataTask(with: URL(string: "http://171.221.204.28:14233/Books/Analyzer/menuPage?path="+book.all)!) {[weak self] (data, resp, error) in
             if let data = data , let result = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:Any]{
                 let success = result["success"] as! Bool
                 if success {

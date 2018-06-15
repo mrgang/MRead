@@ -215,7 +215,7 @@ class ContentViewController: UIViewController, UITextViewDelegate, UIScrollViewD
     func loadMainContent(){
         let paraph = NSMutableParagraphStyle()
         paraph.lineSpacing = 8
-        URLSession.shared.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Analyzer/contentPage?path="+contentURL)!) {[weak self] (data, resp, error) in
+        URLSession.shared.dataTask(with: URL(string: "http://171.221.204.28:14233/Books/Analyzer/contentPage?path="+contentURL)!) {[weak self] (data, resp, error) in
             DispatchQueue.main.async {
                 if let data = data, let result = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:Any]  {
                     let success = result["success"] as! Bool
