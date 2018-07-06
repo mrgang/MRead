@@ -15,7 +15,9 @@ class LastTenTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         navigationController?.navigationBar.prefersLargeTitles = false
-        tenChapters = book.latestedTen
+        tenChapters = book.latestedTen.sorted(by: { (p1, p2) -> Bool in
+            return p1.1 < p2.1
+        })
         tableView.reloadData()
     }
     
