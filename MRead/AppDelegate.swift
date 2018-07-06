@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+let SERVERPATH = "http://m.tnbhj.club:9980"
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 

@@ -21,7 +21,7 @@ class LastTenTableViewController: UITableViewController {
     
     @IBAction func LoadAllChapters(_ sender: UIBarButtonItem) {
         title = "加载中..."
-        URLSession.shared.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Analyzer/menuPage?path="+book.all)!) {[weak self] (data, resp, error) in
+        URLSession.shared.dataTask(with: URL(string: SERVERPATH+"/Analyzer/menuPage?path="+book.all)!) {[weak self] (data, resp, error) in
             if let data = data , let result = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String:Any]{
                 let success = result["success"] as! Bool
                 if success {

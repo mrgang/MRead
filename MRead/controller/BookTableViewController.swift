@@ -13,6 +13,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
     var bookURLs = [String]()
     var BookCellContentCache = [Int:BookCellContent]()
     var task: URLSessionTask?
+    var tasks = [URLSessionTask]()
     var isSearching = false
     let sc = UISearchController(searchResultsController: nil)
     override func viewDidLoad() {
@@ -61,12 +62,16 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         tableView.reloadData()
     }
     func searchBooks(searchContent: String){
+        for t in tasks {
+            t.cancel()
+        }
+        tasks.removeAll()
         bookURLs.removeAll()
         BookCellContentCache.removeAll()
         tableView.reloadData()
         let session = URLSession.shared
         task?.cancel()
-        task = session.dataTask(with: URL(string: "http://hsmart.xzzjw.cn/Books/Search/\(searchContent.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!){[weak self] (data, resp, error) in
+        task = session.dataTask(with: URL(string: SERVERPATH+"/Search/\(searchContent.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!)")!){[weak self] (data, resp, error) in
             DispatchQueue.main.async {
                 if let data = data, let books = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [[String: String]] {
                     let results = books.map({ item -> String in
@@ -84,6 +89,10 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         if refresh.isRefreshing {
             //getMyBookList()
             refresh.attributedTitle = NSAttributedString(string: "松开刷新")
+            for t in tasks {
+                t.cancel()
+            }
+            tasks.removeAll()
         }
     }
 
@@ -96,8 +105,12 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
     }
     
     @IBAction func getDefaultBooks() {
+        for t in tasks {
+            t.cancel()
+        }
+        tasks.removeAll()
         let session = URLSession.shared
-        task = session.dataTask(with: URL(string: "https://raw.githubusercontent.com/mrgang/mrgang.github.io/master/mystory.json")!) {[weak weakSelf = self] (data, resp, error) in
+        let _task = session.dataTask(with: URL(string: "https://raw.githubusercontent.com/mrgang/mrgang.github.io/master/mystory.json")!) {[weak weakSelf = self] (data, resp, error) in
             DispatchQueue.main.async {
                 if let data = data, let books = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [Any]{
                     let URLs: [String] = books.map({ (item) -> String in
@@ -115,7 +128,8 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
                 }
             }
         }
-        task?.resume()
+        _task.resume()
+        tasks.append(_task)
     }
     func getMyBookList(){
         isSearching = false
@@ -190,8 +204,8 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         }else {
             //load data from net
             let session = URLSession.shared
-            let path_str = "http://hsmart.xzzjw.cn/Books/Analyzer/mainPage?path="+bookURLs[indexPath.row]
-            task = session.dataTask(with: URL(string: path_str)!){[weak weakSelf = self] (data, resp, error) in
+            let path_str = SERVERPATH+"/Analyzer/mainPage?path="+bookURLs[indexPath.row]
+            let _task = session.dataTask(with: URL(string: path_str)!){[weak weakSelf = self] (data, resp, error) in
                 DispatchQueue.main.async {
                     if let data = data, let result = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String: Any] {
                         let success = result["success"] as! Bool
@@ -220,6 +234,9 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
                             weakSelf?.BookCellContentCache[index] = BookCellContent(name: _name, author: _author, time: cell.updateTime.text!, chapter: _chapter, url: _url, img: _img, all: _all.replacingOccurrences(of: " ", with: ""), latestedTen: latestedTen, host: host)
                         }
                     }else {
+                        if let e = error, e.localizedDescription.contains("cancelled") {
+                            return
+                        }
                         let alert = UIAlertController(title: "提示", message: error?.localizedDescription, preferredStyle: .alert)
                         alert.addAction(UIAlertAction(title: "确定", style: .default))
                         if self.isSearching {
@@ -230,7 +247,8 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
                     }
                 }
             }
-            task?.resume()
+            _task.resume()
+            tasks.append(_task)
         }
         cell.showLatestedChapterDelegate = self
         return cell
