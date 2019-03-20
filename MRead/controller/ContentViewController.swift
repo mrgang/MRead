@@ -30,7 +30,7 @@ class ContentViewController: UIViewController, UITextViewDelegate, UIScrollViewD
         didSet{
             let paraph = NSMutableParagraphStyle()
             paraph.lineSpacing = 8
-            mainDisplayView.attributedText = NSAttributedString(string: mainDisplayView.attributedText.string, attributes: [NSAttributedStringKey.font : fontFamily,NSAttributedStringKey.foregroundColor:#colorLiteral(red: 0.2821000648, green: 0.2821000648, blue: 0.2821000648, alpha: 1),NSAttributedStringKey.paragraphStyle: paraph,NSAttributedStringKey(rawValue: NSAttributedString.DocumentAttributeKey.documentType.rawValue): NSAttributedString.DocumentType.html])
+            mainDisplayView.attributedText = NSAttributedString(string: mainDisplayView.attributedText.string, attributes: [NSAttributedString.Key.font : fontFamily,NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.2821000648, green: 0.2821000648, blue: 0.2821000648, alpha: 1),NSAttributedString.Key.paragraphStyle: paraph,NSAttributedString.Key(rawValue: NSAttributedString.DocumentAttributeKey.documentType.rawValue): NSAttributedString.DocumentType.html])
         }
     }
     let settingView = UIView()
@@ -127,7 +127,7 @@ class ContentViewController: UIViewController, UITextViewDelegate, UIScrollViewD
     
     func initSettingView() {
         view.addSubview(settingView)
-        view.bringSubview(toFront: settingView)
+        view.bringSubviewToFront(settingView)
         settingView.addSubview(stackView)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         settingView.translatesAutoresizingMaskIntoConstraints = false
@@ -221,7 +221,7 @@ class ContentViewController: UIViewController, UITextViewDelegate, UIScrollViewD
                     let success = result["success"] as! Bool
                     if success {
                         let content = result["data"] as! [String:String]
-                        self?.mainDisplayView.attributedText = NSAttributedString(string: "\n\(content["content"]!)", attributes: [NSAttributedStringKey.font : UIFont.boldSystemFont(ofSize: self?.fontSize ?? 22),NSAttributedStringKey.foregroundColor:#colorLiteral(red: 0.2821000648, green: 0.2821000648, blue: 0.2821000648, alpha: 1),NSAttributedStringKey.paragraphStyle: paraph,NSAttributedStringKey(rawValue: NSAttributedString.DocumentAttributeKey.documentType.rawValue): NSAttributedString.DocumentType.html])
+                        self?.mainDisplayView.attributedText = NSAttributedString(string: "\n\(content["content"]!)", attributes: [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: self?.fontSize ?? 22),NSAttributedString.Key.foregroundColor:#colorLiteral(red: 0.2821000648, green: 0.2821000648, blue: 0.2821000648, alpha: 1),NSAttributedString.Key.paragraphStyle: paraph,NSAttributedString.Key(rawValue: NSAttributedString.DocumentAttributeKey.documentType.rawValue): NSAttributedString.DocumentType.html])
                         let nextURL = content["nextChap"]!
                         let uperURL = content["preChap"]!
                         self?.title = content["title"]

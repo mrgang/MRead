@@ -8,7 +8,7 @@
 
 import UIKit
 import Kingfisher
-
+import MJRefresh
 class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,UISearchBarDelegate,UISearchControllerDelegate{
     var bookURLs = [String]()
     var BookCellContentCache = [Int:BookCellContent]()
@@ -31,13 +31,19 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         sc.searchBar.delegate = self
         sc.searchBar.setValue("取消", forKey: "_cancelButtonText")
         sc.delegate = self
-        refreshControl = UIRefreshControl()
-        refreshControl?.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
-        getMyBookList()
+        tableView.mj_header = MJRefreshNormalHeader(refreshingBlock: {
+            [unowned self] in
+            for t in self.tasks {
+                t.cancel()
+            }
+            self.tasks.removeAll()
+            self.getMyBookList()
+        })
+        tableView.mj_header.beginRefreshing()
     }
     override func viewWillAppear(_ animated: Bool) {
         //设置大字体
-        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.prefersLargeTitles = false
     }
     override func viewWillDisappear(_ animated: Bool) {
         //设置大字体
@@ -85,24 +91,6 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
         task?.resume()
     }
     var flag = true
-    @objc func refreshAction(refresh: UIRefreshControl){
-        if refresh.isRefreshing {
-            //getMyBookList()
-            refresh.attributedTitle = NSAttributedString(string: "松开刷新")
-            for t in tasks {
-                t.cancel()
-            }
-            tasks.removeAll()
-        }
-    }
-
-    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let nh = navigationController?.navigationBar.frame.height
-        if -72 == scrollView.contentOffset.y + nh!,tableView.refreshControl!.isRefreshing {
-            tableView.refreshControl!.attributedTitle = nil
-            getMyBookList()
-        }
-    }
     
     @IBAction func getDefaultBooks() {
         for t in tasks {
@@ -151,7 +139,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
             BookCellContentCache.removeAll()
             tableView.reloadData()
         }
-        refreshControl?.endRefreshing()
+        tableView.mj_header.endRefreshing()
     }
     func getLastChapterURL(cell: BookTableViewCell) {
         if let indexPath = tableView.indexPath(for: cell),let book = BookCellContentCache[indexPath.row] {
@@ -167,7 +155,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
             let bg = UILabel()
             let paraph = NSMutableParagraphStyle()
             paraph.lineSpacing = 8
-            bg.attributedText = NSAttributedString(string: "\n\n\n空空的", attributes: [NSAttributedStringKey.font: UIFont.boldSystemFont(ofSize: 18),NSAttributedStringKey.paragraphStyle:paraph,NSAttributedStringKey.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
+            bg.attributedText = NSAttributedString(string: "\n\n\n空空的", attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),NSAttributedString.Key.paragraphStyle:paraph,NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1)])
             bg.numberOfLines = 0
             bg.textAlignment = .center
             tableView.backgroundView = bg
@@ -232,6 +220,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
                                 latestedTen.append((chapter["name"]!,chapter["path"]!))
                             }
                             weakSelf?.BookCellContentCache[index] = BookCellContent(name: _name, author: _author, time: cell.updateTime.text!, chapter: _chapter, url: _url, img: _img, all: _all.replacingOccurrences(of: " ", with: ""), latestedTen: latestedTen, host: host)
+                            weakSelf?.tableView.reloadRows(at: [IndexPath.init(row: index, section: 0)], with: UITableView.RowAnimation.fade)
                         }
                     }else {
                         if let e = error, e.localizedDescription.contains("cancelled") {
@@ -300,7 +289,7 @@ class BookTableViewController: UITableViewController, GetLastChapterURLDelegate,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showContent" {
             let dest = segue.destination as! ContentViewController
-            dest.book = sender as! BookCellContent
+            dest.book = sender as? BookCellContent
         }else if segue.identifier == "showChapters" {
             let dest = segue.destination as! LastTenTableViewController
             dest.book = BookCellContentCache[sender as! Int]!
